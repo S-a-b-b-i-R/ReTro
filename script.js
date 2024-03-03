@@ -86,4 +86,55 @@ const loadPosts = async () => {
     }
 };
 
+const loadLatestPost = async () => {
+    const res = await fetch(
+        "https://openapi.programming-hero.com/api/retro-forum/latest-posts"
+    );
+    const data = await res.json();
+    const posts = data;
+
+    const postContainer = document.querySelector(".latest");
+    posts.forEach((post) => {
+        const postDiv = document.createElement("div");
+        postDiv.innerHTML = `<div class="p-4 rounded-2xl border-2 h-full">
+        <div class="card card-compact bg-base-100">
+            <figure class="rounded-xl"><img
+                    src="${post.cover_image}" alt="Shoes" />
+            </figure>
+            <div class="card-body">
+                <div class="flex gap-4 items-center mulish text-normalText">
+                    <i class="fa-regular fa-calendar-days"></i>
+                    <span class=" text-base font-normal">12th Oct 2021</span>
+                </div>
+                <h2 class="mulish text-lg font-extrabold leading-7">${
+                    post.title
+                }</h2>
+                <p class="mulish text-base font-normal text-normalText leading-6">${
+                    post.description
+                }</p>
+                <div class="card-actions justify-start items-center gap-4">
+                    <div class="avatar">
+                        <div class="w-14 rounded-full">
+                            <img src="${post.profile_image}" />
+                        </div>
+                    </div>
+                    <div>
+                        <h1 class="mulish text-base font-bold">${
+                            post.author.name
+                        }</h1>
+                        <p class="mulish text-sm font-normal text-normalText">${
+                            post.author.designation
+                                ? post.author.designation
+                                : "Unknown"
+                        }</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`;
+        postContainer.appendChild(postDiv);
+    });
+};
+
 loadPosts();
+loadLatestPost();
