@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- daisyui -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap"
+        rel="stylesheet">
+    <!-- sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- fontawesome -->
+    <script src="https://kit.fontawesome.com/a95ec70b61.js" crossorigin="anonymous"></script>
+    <title>ReTro</title>
+
+
+    <!-- tailwind config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        clifford: '#da373d',
+                        mainPurple: 'rgb(121, 125, 252)',
+                        navBtnBg: "rgba(18, 19, 45, 0.03)",
+                        navBtnBorder: "rgba(3, 7, 18, 0.1)"
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- custom style for fonts -->
+    <style>
+        .inter {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .mulish {
+            font-family: 'Mulish', sans-serif;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- navbar -->
+    <section class="container mx-auto lg:px-20">
+        <div class="navbar bg-base-100">
+            <div class="flex-1">
+                <a class="btn btn-ghost mulish text-4xl font-black leading-10">ReTro</a>
+            </div>
+            <div class="flex-none">
+                <ul class="menu menu-horizontal px-1 space-x-2">
+                    <li class="bg-navBtnBg w-12 h-12 place-content-center rounded-[100%] border-2 border-navBtnBorder">
+                        <a class="hover:bg-transparent"><i class="fa-solid fa-house" style="color: #000000;"></i></a>
+                    </li>
+                    <li class="bg-navBtnBg w-12 h-12 place-content-center rounded-[100%] border-2 border-navBtnBorder">
+                        <a class="hover:bg-transparent"><i class="fa-solid fa-pencil" style="color: #000000;"></i></a>
+                    </li>
+                    <li class="bg-navBtnBg w-12 h-12 place-content-center rounded-[100%] border-2 border-navBtnBorder">
+                        <a class="hover:bg-transparent"><i class="fa-solid fa-user-plus"
+                                style="color: #000000;"></i></i></a>
+                    </li>
+                    <li class="bg-navBtnBg w-12 h-12 place-content-center rounded-[100%] border-2 border-navBtnBorder">
+                        <a class="hover:bg-transparent"><i class="fa-solid fa-flag"
+                                style="color: #000000;"></i></i></i></a>
+                    </li>
+                    <li>
+                        <button
+                            class="bg-mainPurple h-12 place-content-center text-white rounded-full px-6 mulish text-xl font-bold leading-6">Sign
+                            In</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <script src="./script.js"></script>
+</body>
+
+</html>
