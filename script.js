@@ -20,7 +20,7 @@ const loadPosts = async (posts) => {
                     </div>
                     <div class="space-y-5 w-full">
                         <div class="flex gap-5 inter text-sm font-medium leading-4 text-cardTop">
-                            <p class="">#Music</p>
+                            <p class="">#${post.category}</p>
                             <p>Author : ${post.author.name}</p>
                         </div>
                         <h1 class="mulish text-xl font-bold leading-6">${
