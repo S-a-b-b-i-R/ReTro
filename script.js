@@ -1,14 +1,10 @@
-console.log("connected!");
-const loadPosts = async () => {
-    const res = await fetch(
-        "https://openapi.programming-hero.com/api/retro-forum/posts"
-    );
-    const data = await res.json();
-    const posts = data.posts;
-    const postContainer = document.getElementById("posts");
-    posts.forEach((post) => {
-        const postDiv = document.createElement("div");
-        postDiv.innerHTML = `
+const loadPosts = async (posts) => {
+    loadingAnimation(true);
+    setTimeout(() => {
+        const postContainer = document.getElementById("posts");
+        posts.forEach((post) => {
+            const postDiv = document.createElement("div");
+            postDiv.innerHTML = `
         <div class="bg-cardBg p-10 rounded-xl flex flex-col lg:flex-row justify-start items-start gap-6 hover:cursor-pointer post">
                     <div class="indicator">
                         <span class="indicator-item badge ${
@@ -56,33 +52,49 @@ const loadPosts = async () => {
                     </div>
                 </div>
         `;
-        postContainer.appendChild(postDiv);
-    });
-    const cards = document.querySelectorAll(".post");
-    for (let card of cards) {
-        card.addEventListener("click", function () {
-            const readItems = document.querySelector("#read");
-            const div = document.createElement("div");
-            div.className =
-                "flex justify-between items-center bg-white p-4 rounded-xl mb-3";
-            const li = document.createElement("li");
-            li.className = "mulish text-lg font-bold w-2/3";
-            const name = card.childNodes[3].childNodes[3].innerText;
-            li.appendChild(document.createTextNode(name));
-            li.style.listStyle = "none";
-            div.appendChild(li);
-            const i = document.createElement("i");
-            i.className = "fa-regular fa-eye text-sm";
-            const span = document.createElement("span");
-            span.className = "text-sm mulish";
-            span.innerText =
-                card.childNodes[3].childNodes[9].childNodes[1].childNodes[3].childNodes[3].innerText;
-            i.appendChild(span);
-            div.appendChild(i);
-            readItems.appendChild(div);
-            const totalRead = document.querySelector("#total-read");
-            totalRead.innerText = readItems.childElementCount;
+            postContainer.appendChild(postDiv);
         });
+        const cards = document.querySelectorAll(".post");
+        for (let card of cards) {
+            card.addEventListener("click", function () {
+                const readItems = document.querySelector("#read");
+                const div = document.createElement("div");
+                div.className =
+                    "flex justify-between items-center bg-white p-4 rounded-xl mb-3";
+                const li = document.createElement("li");
+                li.className = "mulish text-lg font-bold w-2/3";
+                const name = card.childNodes[3].childNodes[3].innerText;
+                li.appendChild(document.createTextNode(name));
+                li.style.listStyle = "none";
+                div.appendChild(li);
+                const i = document.createElement("i");
+                i.className = "fa-regular fa-eye text-sm";
+                const span = document.createElement("span");
+                span.className = "text-sm mulish";
+                span.innerText =
+                    card.childNodes[3].childNodes[9].childNodes[1].childNodes[3].childNodes[3].innerText;
+                i.appendChild(span);
+                div.appendChild(i);
+                readItems.appendChild(div);
+                const totalRead = document.querySelector("#total-read");
+                totalRead.innerText = readItems.childElementCount;
+            });
+        }
+        loadingAnimation(false);
+    }, 2500);
+};
+
+const loadingAnimation = (isLoading) => {
+    const animation = document.getElementById("animation");
+    if (isLoading) {
+        console.log(animation);
+        animation.innerHTML = `<lottie-player 
+        src="https://lottie.host/a0f18581-a501-4cae-b0df-4f5091496c11/CN7ZzUI7lN.json"
+        background="transparent" speed="1" style="width: 300px; height: 300px;" loop
+        autoplay></lottie-player>`;
+    } else {
+        console.log(animation);
+        animation.innerHTML = "";
     }
 };
 
@@ -97,22 +109,27 @@ const loadLatestPost = async () => {
     posts.forEach((post) => {
         const postDiv = document.createElement("div");
         postDiv.innerHTML = `<div class="p-4 rounded-2xl border-2 h-full">
-        <div class="card card-compact bg-base-100">
+        <div class=" bg-base-100 flex flex-col gap-3 items-between">
             <figure class="rounded-xl"><img
                     src="${post.cover_image}" alt="Shoes" />
             </figure>
-            <div class="card-body">
-                <div class="flex gap-4 items-center mulish text-normalText">
+            <div class=" flex flex-col flex-grow gap-3 h-[100%]">
+                <div class="flex gap-4 items-center mulish text-normalText grow-0">
                     <i class="fa-regular fa-calendar-days"></i>
-                    <span class=" text-base font-normal">12th Oct 2021</span>
+                    <span class=" text-base font-normal">${
+                        post.author.posted_date
+                            ? post.author.posted_date
+                            : "No publish date"
+                    }</span>
                 </div>
-                <h2 class="mulish text-lg font-extrabold leading-7">${
+                <h2 class="mulish text-lg font-extrabold leading-7 grow-0">${
                     post.title
                 }</h2>
-                <p class="mulish text-base font-normal text-normalText leading-6">${
+                <div class="flex-1 h-[100%]">
+                <p class="mulish text-base font-normal text-normalText">${
                     post.description
-                }</p>
-                <div class="card-actions justify-start items-center gap-4">
+                }</p></div>
+                <div class="flex justify-start items-center gap-4 grow-0">
                     <div class="avatar">
                         <div class="w-14 rounded-full">
                             <img src="${post.profile_image}" />
@@ -136,5 +153,26 @@ const loadLatestPost = async () => {
     });
 };
 
-loadPosts();
+const firstLoad = async () => {
+    const res = await fetch(
+        "https://openapi.programming-hero.com/api/retro-forum/posts"
+    );
+    const data = await res.json();
+    const posts = data.posts;
+    loadPosts(posts);
+};
+
+const search = async () => {
+    const input = document.getElementById("search-text").value;
+    const res = await fetch(
+        `https://openapi.programming-hero.com/api/retro-forum/posts?category=${input}`
+    );
+    const data = await res.json();
+    const posts = data.posts;
+    const postContainer = document.getElementById("posts");
+    postContainer.innerHTML = "";
+    loadPosts(posts);
+};
+
+firstLoad();
 loadLatestPost();
